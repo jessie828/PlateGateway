@@ -15,8 +15,6 @@ CONFIG += staticlib
 TARGET = util
 DESTDIR = $$PLATE_GATEWAY_SANDBOX_LIB
 
-MOC_DIR = ./moc_cpp
-
 SOURCES += \
         Utils.cpp \
         Wavelet.cpp \

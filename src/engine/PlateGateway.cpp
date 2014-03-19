@@ -9,11 +9,11 @@
 // met: http://www.gnu.org/copyleft/gpl.html.
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <tesseract/baseapi.h>
-#include <leptonica/allheaders.h>
+#include <baseapi.h>
+#include <allheaders.h>
 
-#include "opencv/cv.h"
-#include "opencv/highgui.h"
+#include "cv.h"
+#include "highgui.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <iostream>
