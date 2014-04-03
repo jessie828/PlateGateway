@@ -30,8 +30,8 @@ LIBS += \
      -L$$PLATE_GATEWAY_SANDBOX_LIB \
      -L$$PLATE_GATEWAY_THIRDPARTY_TESSERACT_LIB \
      -L$$PLATE_GATEWAY_THIRDPARTY_LEPTONICA_LIB \
-     -lengine \
      -lhelper \
+     -lengine \
      -ltesseract \
      -llept \
      -lpthread \

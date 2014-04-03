@@ -20,11 +20,13 @@ RenderVideoHelper::RenderVideoHelper()
     image_height=480;
 }
 
+
 RenderVideoHelper::~RenderVideoHelper()
 {
     delete []vid_image_data_yuv;
     delete []vid_image_data_rgb;
 }
+
 
 void RenderVideoHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed,int width,int height)
 {
@@ -32,6 +34,7 @@ void RenderVideoHelper::paint(QPainter *painter, QPaintEvent *event, int elapsed
     //vid_image=vid_image.mirrored(false,true);
     painter->drawImage(QRect(0,0,width,height),vid_image,QRect(0,0,image_width,image_height),Qt::AutoColor);
 }
+
 
 void RenderVideoHelper::run()
 {
@@ -43,6 +46,7 @@ void RenderVideoHelper::run()
         usleep(40000);
     }
 }
+
 
 int RenderVideoHelper::start_rendering()
 {

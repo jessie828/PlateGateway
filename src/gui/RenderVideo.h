@@ -12,6 +12,8 @@
 #include <QPaintEvent>
 #include <QCloseEvent>
 
+#include <QLabel>
+
 #include "RenderVideoHelper.h"
 
 class RenderVideo : public QWidget
@@ -19,9 +21,11 @@ class RenderVideo : public QWidget
     Q_OBJECT;
 
     public:
-        RenderVideo(RenderVideoHelper *helper, QWidget *parent);
+//        RenderVideo(RenderVideoHelper *helper, QWidget *parent);
+        RenderVideo(QWidget *parent);
         ~RenderVideo();
         void Go();
+        void showThumbnail(const QString &filename);
     public slots:
         void animate(int tmp_width,int tmp_height);
 
@@ -30,7 +34,7 @@ class RenderVideo : public QWidget
         void closeEvent(QCloseEvent *event);
 
     private:
-        RenderVideoHelper *m_helper;
+//        RenderVideoHelper *m_helper;
         int elapsed;
         int width;
         int height;

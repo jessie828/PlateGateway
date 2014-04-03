@@ -36,3 +36,4 @@ QMAKE_CXXFLAGS += -finline-functions
 QMAKE_CFLAGS   += -finline-functions
 
 QMAKE_LIBDIR_X11 += /usr/X11R6/lib64
+QMAKE_CXXFLAGS += -D__STDC_CONSTANT_MACROS 

@@ -15,12 +15,13 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QPainter>
+#include <QImage>
 
 #include <stdio.h>
 
 #include "ui_PlateGatewayDialogUi.h"
 #include "PlateValidationHelper.h"
-#include "RenderVideoHelper.h"
+#include "RenderVideo.h"
 
 class PlateGatewayDialog : public QMainWindow, public Ui_PlateGatewayQt
 {
@@ -31,11 +32,14 @@ public:
     ~PlateGatewayDialog();
 
 private:
-//    RenderVideoHelper *rv_hlp;
+    void showThumbnail(const QString &filename);
+
+private:
+    RenderVideoHelper *m_renderVideoHelper;
 //    RenderHistogramHelper *rh_hlp;
-    PlateValidationHelper *fv_hlp;
+    PlateValidationHelper *m_plateValidateHelper;
 //
-//    Widget_RenderVideo *rv_widget;
+    RenderVideo *renderVideoWidget;
 //    Widget_RenderHistogram *rh_widget;
 
 //    QTimer *render_timer;
@@ -60,6 +64,8 @@ private:
 //    int pc_number;
 //    char plate[1024];
     QString m_filename;
+
+    QLabel *thumbnailLabel;
 
 private slots:
 //    void update_screen();

@@ -15,8 +15,8 @@
 
 PlateValidationHelper::PlateValidationHelper()
 {
-    printf("made something\n");
     m_threadActive=false;
+    m_detector = new PlateDetector();
 }
 
 PlateValidationHelper::~PlateValidationHelper()
@@ -26,13 +26,12 @@ PlateValidationHelper::~PlateValidationHelper()
 
 void PlateValidationHelper::run()
 {
-    printf("run forest run\n");
-    plate_detect(m_filename.toAscii().data(), 0);
+    printf("find plate\n");
+    //plate_detect(m_filename.toAscii().data());
 }
 
 int PlateValidationHelper::startPlateValidation(const QString &filename)
 {
-    printf("received filename is %s\n", filename.toAscii().data());
     m_filename = filename;
 
     if(!m_threadActive)
@@ -40,17 +39,19 @@ int PlateValidationHelper::startPlateValidation(const QString &filename)
         m_threadActive=true;
         start();
     }
-    else
-    {
-        printf("thread allready active doing nothing\n");
-    }
 
     return 0;
 }
 
 int PlateValidationHelper::stop_plate_validation()
 {
-    printf("stopdetect\n");
     m_threadActive=false;
 //    stop_plate_detect();
+    return 0;
+}
+
+
+QPixmap PlateValidationHelper::getThumbnail(const QString &filename)
+{
+    return m_detector->getThumbnail(filename);
 }

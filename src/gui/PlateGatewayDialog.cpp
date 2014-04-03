@@ -31,11 +31,16 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
     SetupButton->setVisible(false);
     //end disable
 
-//    rv_hlp = new RenderVideoHelper();
+    m_renderVideoHelper = new RenderVideoHelper();
+    m_plateValidateHelper = new PlateValidationHelper();
 //    rh_hlp = new RenderHistogramHelper();
-    fv_hlp = new PlateValidationHelper();
 
-//    rv_widget = new Widget_RenderVideo(rv_hlp,m_plateGateway->render_video_widget);
+
+    renderVideoWidget = new RenderVideo(render_video_widget);
+    thumbnailLabel = new QLabel(render_video_widget);
+    thumbnailLabel->setText("Waiting for loading of video ...");
+    thumbnailLabel->setGeometry(render_video_widget->geometry().center().x()/2, render_video_widget->geometry().center().y()/2, 500, 50);
+
 //    rh_widget = new Widget_RenderHistogram(rh_hlp,m_plateGateway->render_histogram_widget);
 
 //    render_timer=new QTimer(this);
@@ -51,6 +56,7 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
 //    update_plate_timer->start(100);
 
 //    rv_widget->Go();
+    renderVideoWidget->Go();
 //    rh_widget->Go();
 
     mainStatusBar->showMessage("Waiting...",0);
@@ -66,95 +72,6 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
 PlateGatewayDialog::~PlateGatewayDialog()
 {
 }
-
-
-//void PlateGatewayQt::on_SetupButton_clicked()
-//{
-//   SetupDialog setup_dialog;
-//
-//   setup_dialog.ip_address=ip_address;
-//   setup_dialog.ip_port=ip_port;
-//   setup_dialog.muin_port=muin_port;
-//   setup_dialog.classifier_file=classifier_file;
-//   setup_dialog.sensibility=sensibility;
-//   setup_dialog.th_recon=th_recon;
-//   setup_dialog.th_alert=th_alert;
-//   setup_dialog.th_alarm=th_alarm;
-//   setup_dialog.dbase_len=dbase_len;
-//   setup_dialog.red=red;
-//   setup_dialog.green=green;
-//   setup_dialog.blue=blue;
-//   setup_dialog.cr_min=cr_min;
-//   setup_dialog.cr_max=cr_max;
-//   setup_dialog.pc_number=pc_number;
-//
-//   int ret_val = setup_dialog.exec();
-//
-//   if(ret_val==QDialog::Accepted)
-//   {
-//
-//       ip_address=setup_dialog.ip_address;
-//       ip_port=setup_dialog.ip_port;
-//       muin_port=setup_dialog.muin_port;
-//       classifier_file=setup_dialog.classifier_file;
-//       sensibility=setup_dialog.sensibility;
-//       th_recon=setup_dialog.th_recon;
-//       th_alert=setup_dialog.th_alert;
-//       th_alarm=setup_dialog.th_alarm;
-//       dbase_len=setup_dialog.dbase_len;
-//
-//       red=setup_dialog.red;
-//       green=setup_dialog.green;
-//       blue=setup_dialog.blue;
-//
-//       cr_min=setup_dialog.cr_min;
-//       cr_max=setup_dialog.cr_max;
-//       pc_number=setup_dialog.pc_number;
-//
-//       QFile file("./config.xml");
-//       file.open(QIODevice::WriteOnly);
-//
-//       QXmlStreamWriter xmlWriter(&file);
-//       xmlWriter.setAutoFormatting(true);
-//       xmlWriter.writeStartDocument();
-//
-//       xmlWriter.writeStartElement("FaceRecognition");
-//
-//       xmlWriter.writeStartElement("Connection");
-//       xmlWriter.writeTextElement("Ip", setup_dialog.ip_address);
-//       xmlWriter.writeTextElement("Port", QString::number(setup_dialog.ip_port,10));
-//       xmlWriter.writeTextElement("MuinPort", QString::number(setup_dialog.muin_port,10));
-//       xmlWriter.writeEndElement();
-//
-//       xmlWriter.writeStartElement("Classifier");
-//
-//       xmlWriter.writeTextElement("Sensibility",QString::number(setup_dialog.sensibility,10));
-//       xmlWriter.writeTextElement("Red",QString::number(setup_dialog.red,10));
-//       xmlWriter.writeTextElement("Green",QString::number(setup_dialog.green,10));
-//       xmlWriter.writeTextElement("Blue",QString::number(setup_dialog.blue,10));
-//       xmlWriter.writeTextElement("CR_min",QString::number(setup_dialog.cr_min,10));
-//       xmlWriter.writeTextElement("CR_max",QString::number(setup_dialog.cr_max,10));
-//       xmlWriter.writeTextElement("PC_number",QString::number(setup_dialog.pc_number,10));
-//
-//       xmlWriter.writeStartElement("PlateRec");
-//       xmlWriter.writeTextElement("DbaseLen",QString::number(setup_dialog.dbase_len,10));
-//       xmlWriter.writeEndElement();
-//
-//       xmlWriter.writeEndElement();
-//       xmlWriter.writeEndDocument();
-//
-//       file.close();
-//
-//       set_ip_address(ip_address,ip_port,muin_port);
-//
-//       set_params(classifier_file,sensibility,th_recon,th_alert,th_alarm);
-//
-//       set_plate_mask(red,green,blue);
-//
-//       set_plate_chr(cr_min,cr_max,pc_number);
-//
-//   }
-//}
 
 
 //void PlateGatewayQt::click_image(QListWidgetItem *item)
@@ -233,38 +150,50 @@ PlateGatewayDialog::~PlateGatewayDialog()
 
 void PlateGatewayDialog::on_loadButton_clicked()
 {
-    printf("load pressed\n");
     QFileDialog dlg;
+    dlg.setFilter("*.avi *.mov *.MOV");
 
-    dlg.setFilter("*.avi");
     if(dlg.exec())
     {
         m_filename = dlg.selectedFiles().at(0);
-        printf("Open filename %s\n", m_filename.toAscii().data());
-        fflush(stdout);
+        mainStatusBar->showMessage(QString("Video %1 loaded ...").arg(m_filename), 0);
     }
+
+    showThumbnail(m_filename);
 }
 
 
 void PlateGatewayDialog::on_playButton_clicked()
 {
-    printf("play pressed\n");
     if(!m_filename.isEmpty())
     {
-        printf("filename sent is %s\n", m_filename.toAscii().data());
-        fv_hlp->startPlateValidation(m_filename);
+        m_plateValidateHelper->startPlateValidation(m_filename);
     }
     else
     {
-        printf("Please select a file before playing\n");
+        mainStatusBar->showMessage("Please select a file before playing", 0);
     }
 }
 
 
 void PlateGatewayDialog::on_stopButton_clicked()
 {
-    printf("stop pressed\n");
-    fv_hlp->stop_plate_validation();
+//    m_plateValidateHelper->stop_plate_validation();
+    mainStatusBar->showMessage("Stop button pressed. Will now stop retrieving license plates ...");
+}
+
+
+void PlateGatewayDialog::showThumbnail(const QString &filename)
+{
+    QPixmap thumbnail = m_plateValidateHelper->getThumbnail(filename);
+    thumbnailLabel->setBackgroundRole(QPalette::Base);
+    thumbnailLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    thumbnailLabel->setScaledContents(true);
+    thumbnailLabel->setGeometry(QRect(0,0, render_video_widget->width(), render_video_widget->height()));
+    thumbnailLabel->setPixmap(thumbnail);
+    thumbnailLabel->resize(render_video_widget->size());
+    thumbnailLabel->setScaledContents(true);
+    thumbnailLabel->setVisible(true);
 }
 
 

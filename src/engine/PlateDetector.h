@@ -9,28 +9,19 @@
 // met: http://www.gnu.org/copyleft/gpl.html.
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <QListWidget>
-#include <QString>
-#include <QThread>
+#ifndef PLATEDETECTOR_H_
+#define PLATEDETECTOR_H_
+
 #include <QPixmap>
 
-#include "PlateGateway.h"
-#include "PlateDetector.h"
-
-class PlateValidationHelper : public QThread
+class PlateDetector
 {
-    public:
-        PlateValidationHelper();
-        ~PlateValidationHelper();
-        QPixmap getThumbnail(const QString &filename);
-        int startPlateValidation(const QString &filename);
-        int stop_plate_validation();
 
-    private:
-        bool m_threadActive;
-        QString m_filename;
-        PlateDetector *m_detector;
+public:
+    PlateDetector();
+    ~PlateDetector();
 
-    protected:
-        void run();
+    QPixmap getThumbnail(const QString &filename);
 };
+
+#endif /* PLATEDETECTOR_H_ */

@@ -11,10 +11,11 @@
 
 #include "RenderVideo.h"
 
-RenderVideo::RenderVideo(RenderVideoHelper *helper, QWidget *parent)
-        : QWidget(parent), m_helper(helper)
+RenderVideo::RenderVideo(QWidget *parent)
+        : QWidget(parent)
 {
     elapsed = 0;
+
     RenderVideo::setMinimumSize(QSize(1920,1200));
 }
 
@@ -32,7 +33,7 @@ void RenderVideo::paintEvent(QPaintEvent *event)
     QPainter painter;
     painter.begin(this);
     //painter.setRenderHint(painter.Antialiasing,true);
-//    helper->paint(&painter, event, elapsed,width,height);
+//    m_helper->paint(&painter, event, elapsed,width,height);
     painter.end();
 }
 
@@ -49,4 +50,13 @@ void RenderVideo::Go()
 RenderVideo::~RenderVideo()
 {
 
+}
+
+
+void RenderVideo::showThumbnail(const QString &filename)
+{
+//    image=QImage("/scratch/videos/snaps/volvo.jpg");//,100,100,QImage::Format_RGB888);
+//    QPainter painter;
+//    painter.begin(this);
+//    painter.drawImage(QRect(0,0,width,height),vid_image,QRect(0,0,100,100),Qt::AutoColor);
 }
