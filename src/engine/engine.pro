@@ -21,12 +21,9 @@ TARGET = engine
 DESTDIR = $$PLATE_GATEWAY_SANDBOX_LIB
 
 SOURCES += \
-        PlateGateway.cpp \
         PlateDetector.cpp \
         #
 
 HEADERS += \
-        PlateGateway.h \
-        Muin.h \
         PlateDetector.h \
         #

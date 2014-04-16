@@ -10,10 +10,10 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "RenderVideoHelper.h"
+#include "PlateDetector.h"
 
 RenderVideoHelper::RenderVideoHelper()
 {
-    vid_image_data_yuv = new unsigned char[1920*1200*2];
     vid_image_data_rgb = new unsigned char[1920*1200*4];
 
     image_width=640;
@@ -23,7 +23,6 @@ RenderVideoHelper::RenderVideoHelper()
 
 RenderVideoHelper::~RenderVideoHelper()
 {
-    delete []vid_image_data_yuv;
     delete []vid_image_data_rgb;
 }
 
@@ -42,8 +41,12 @@ void RenderVideoHelper::run()
 
     while(thread_active)
     {
-        get_image(vid_image_data_rgb,640,480);
+        int status = 0;//PlateDetector::getInstance()->getImage(vid_image_data_rgb, image_width, image_height);
         usleep(40000);
+        if(status == -1)
+        {
+            thread_active = false;
+        }
     }
 }
 

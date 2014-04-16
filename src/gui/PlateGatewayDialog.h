@@ -47,9 +47,6 @@ private:
 //    QTimer *update_plate_timer;
 //    QTimer *update_database_timer;
 
-//    QString ip_address;
-//    int ip_port;
-//    int muin_port;
 //    QString classifier_file;
 //    int sensibility;
 //    int th_recon;
@@ -64,8 +61,6 @@ private:
 //    int pc_number;
 //    char plate[1024];
     QString m_filename;
-
-    QLabel *thumbnailLabel;
 
 private slots:
 //    void update_screen();

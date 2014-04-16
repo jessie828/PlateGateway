@@ -29,7 +29,6 @@ class PlateValidationHelper : public QThread
     private:
         bool m_threadActive;
         QString m_filename;
-        PlateDetector *m_detector;
 
     protected:
         void run();

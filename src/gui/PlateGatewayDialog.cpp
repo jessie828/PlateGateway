@@ -36,10 +36,7 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
 //    rh_hlp = new RenderHistogramHelper();
 
 
-    renderVideoWidget = new RenderVideo(render_video_widget);
-    thumbnailLabel = new QLabel(render_video_widget);
-    thumbnailLabel->setText("Waiting for loading of video ...");
-    thumbnailLabel->setGeometry(render_video_widget->geometry().center().x()/2, render_video_widget->geometry().center().y()/2, 500, 50);
+    renderVideoWidget = new RenderVideo(m_renderVideoHelper, render_video_widget);
 
 //    rh_widget = new Widget_RenderHistogram(rh_hlp,m_plateGateway->render_histogram_widget);
 
@@ -64,7 +61,7 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
 
     char *chrs = new char[256];
     memset(chrs,0L,256);
-    set_best_plate(chrs);
+//    set_best_plate(chrs);
     delete []chrs;
 }
 
@@ -126,7 +123,8 @@ PlateGatewayDialog::~PlateGatewayDialog()
 //
 //    system(filename);
 //}
-//
+
+
 //void PlateGatewayQt::update_screen()
 //{
 //    rv_widget->animate(m_plateGateway->render_video_widget->width(),m_plateGateway->render_video_widget->height());
@@ -158,8 +156,6 @@ void PlateGatewayDialog::on_loadButton_clicked()
         m_filename = dlg.selectedFiles().at(0);
         mainStatusBar->showMessage(QString("Video %1 loaded ...").arg(m_filename), 0);
     }
-
-    showThumbnail(m_filename);
 }
 
 
@@ -167,6 +163,7 @@ void PlateGatewayDialog::on_playButton_clicked()
 {
     if(!m_filename.isEmpty())
     {
+        m_renderVideoHelper->start_rendering();
         m_plateValidateHelper->startPlateValidation(m_filename);
     }
     else
@@ -181,24 +178,3 @@ void PlateGatewayDialog::on_stopButton_clicked()
 //    m_plateValidateHelper->stop_plate_validation();
     mainStatusBar->showMessage("Stop button pressed. Will now stop retrieving license plates ...");
 }
-
-
-void PlateGatewayDialog::showThumbnail(const QString &filename)
-{
-    QPixmap thumbnail = m_plateValidateHelper->getThumbnail(filename);
-    thumbnailLabel->setBackgroundRole(QPalette::Base);
-    thumbnailLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    thumbnailLabel->setScaledContents(true);
-    thumbnailLabel->setGeometry(QRect(0,0, render_video_widget->width(), render_video_widget->height()));
-    thumbnailLabel->setPixmap(thumbnail);
-    thumbnailLabel->resize(render_video_widget->size());
-    thumbnailLabel->setScaledContents(true);
-    thumbnailLabel->setVisible(true);
-}
-
-
-//void PlateGatewayQt::on_AccessButton_clicked()
-//{
-//    Plates plates;
-//    plates.exec();
-//}

@@ -26,7 +26,6 @@ class RenderVideoHelper : public QThread
 
     private:
         unsigned char *vid_image_data_rgb;
-        unsigned char *vid_image_data_yuv;
         QImage vid_image;
         int image_width;
         int image_height;
