@@ -16,7 +16,6 @@ INCLUDEPATH = \
           . \
           ./uic_headers \
           $$PLATE_GATEWAY_SANDBOX_INC \
-          $$PLATE_GATEWAY_SANDBOX_SRC/util \
           $$PLATE_GATEWAY_SANDBOX_SRC/engine \
           $$PLATE_GATEWAY_SANDBOX_SRC/helper \
           $$PLATE_GATEWAY_THIRDPARTY_OPENCV_INC \
@@ -62,23 +61,17 @@ LIBS += \
 
 SOURCES += \
     main.cpp \
-    SetupDialog.cpp \
     PlategatewayDialog.cpp \
-    Plates.cpp \
     RenderVideo.cpp \
     RenderHistogram.cpp \
     #
 
 HEADERS += \
-    SetupDialog.h \
     PlategatewayDialog.h \
-    Plates.h \
     RenderVideo.h \
     RenderHistogram.h \
     #
 
 FORMS += \
-    SetupDialogUi.ui \
     PlategatewayDialogUi.ui \
-    PlatesUi.ui \
     #

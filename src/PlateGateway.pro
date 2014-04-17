@@ -7,7 +7,6 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS = \
-        util \
         engine \
         helper \
         gui \
