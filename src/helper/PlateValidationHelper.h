@@ -14,7 +14,6 @@
 #include <QThread>
 #include <QPixmap>
 
-#include "PlateGateway.h"
 #include "PlateDetector.h"
 
 class PlateValidationHelper : public QThread

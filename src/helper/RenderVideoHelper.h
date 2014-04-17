@@ -9,12 +9,13 @@
 // met: http://www.gnu.org/copyleft/gpl.html.
 ///////////////////////////////////////////////////////////////////////////////////
 
+#ifndef RENDERVIDEOHELPER_H
+#define RENDERVIDEOHELPER_H
+
 #include <QThread>
 #include <QImage>
 #include <QPaintEvent>
 #include <QPainter>
-
-#include "PlateGateway.h"
 
 class RenderVideoHelper : public QThread
 {
@@ -34,3 +35,5 @@ class RenderVideoHelper : public QThread
     protected:
         void run();
 };
+
+#endif /* RENDERVIDEOHELPER_H */

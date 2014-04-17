@@ -41,7 +41,7 @@ void RenderVideoHelper::run()
 
     while(thread_active)
     {
-        int status = 0;//PlateDetector::getInstance()->getImage(vid_image_data_rgb, image_width, image_height);
+        int status = PlateDetector::getInstance()->getImage(vid_image_data_rgb, image_width, image_height);
         usleep(40000);
         if(status == -1)
         {

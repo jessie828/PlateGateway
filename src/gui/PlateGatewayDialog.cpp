@@ -33,28 +33,27 @@ PlateGatewayDialog::PlateGatewayDialog(QWidget *parent) :
 
     m_renderVideoHelper = new RenderVideoHelper();
     m_plateValidateHelper = new PlateValidationHelper();
-//    rh_hlp = new RenderHistogramHelper();
+    m_renderHistogramHelper = new RenderHistogramHelper();
 
 
     renderVideoWidget = new RenderVideo(m_renderVideoHelper, render_video_widget);
+    renderHistogramwidget = new RenderHistogram(m_renderHistogramHelper, render_histogram_widget);
 
-//    rh_widget = new Widget_RenderHistogram(rh_hlp,m_plateGateway->render_histogram_widget);
+    render_timer=new QTimer(this);
+    update_timer=new QTimer(this);
+    update_database_timer=new QTimer(this);
+    update_plate_timer=new QTimer(this);
 
-//    render_timer=new QTimer(this);
-//    update_timer=new QTimer(this);
-//    update_database_timer=new QTimer(this);
-//    update_plate_timer=new QTimer(this);
+    connect(render_timer,SIGNAL(timeout()),this,SLOT(update_screen()));
 
-//    connect(render_timer,SIGNAL(timeout()),this,SLOT(update_screen()));
-//
-//    render_timer->start(40);
-//    update_timer->start(1000);
-//    update_database_timer->start(30000);
-//    update_plate_timer->start(100);
+    render_timer->start(40);
+    update_timer->start(1000);
+    update_database_timer->start(30000);
+    update_plate_timer->start(100);
 
-//    rv_widget->Go();
     renderVideoWidget->Go();
-//    rh_widget->Go();
+    renderVideoWidget->Go();
+    renderHistogramwidget->Go();
 
     mainStatusBar->showMessage("Waiting...",0);
     TimeStr->setText("0.0 ms");
@@ -125,25 +124,25 @@ PlateGatewayDialog::~PlateGatewayDialog()
 //}
 
 
-//void PlateGatewayQt::update_screen()
-//{
-//    rv_widget->animate(m_plateGateway->render_video_widget->width(),m_plateGateway->render_video_widget->height());
-//    rh_widget->animate(m_plateGateway->render_histogram_widget->width(),m_plateGateway->render_histogram_widget->height());
-//
-//    char *bp=new char[256];
-//    memset(bp,0L,256);
-//    get_best_plate(bp);
-//
-//    m_plateGateway->StrPlate->setText((QString)bp);
-//
-//    delete []bp;
-//
-//    double dts_val=get_time();
-//    char *ts=new char[256];
-//    sprintf(ts,"%.2f ms",dts_val);
-//    m_plateGateway->TimeStr->setText(ts);
-//    delete []ts;
-//}
+void PlateGatewayDialog::update_screen()
+{
+    renderVideoWidget->animate(render_video_widget->width(),render_video_widget->height());
+    renderHistogramwidget->animate(render_histogram_widget->width(),render_histogram_widget->height());
+
+    char *bp=new char[256];
+    memset(bp,0L,256);
+    PlateDetector::getInstance()->getBestPlate(bp);
+
+    StrPlate->setText((QString)bp);
+
+    delete []bp;
+
+    double dts_val=PlateDetector::getInstance()->getTime();
+    char *ts=new char[256];
+    sprintf(ts,"%.2f ms",dts_val);
+    TimeStr->setText(ts);
+    delete []ts;
+}
 
 
 void PlateGatewayDialog::on_loadButton_clicked()
@@ -175,6 +174,6 @@ void PlateGatewayDialog::on_playButton_clicked()
 
 void PlateGatewayDialog::on_stopButton_clicked()
 {
-//    m_plateValidateHelper->stop_plate_validation();
+    m_plateValidateHelper->stop_plate_validation();
     mainStatusBar->showMessage("Stop button pressed. Will now stop retrieving license plates ...");
 }

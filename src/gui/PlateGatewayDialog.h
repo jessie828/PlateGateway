@@ -16,12 +16,15 @@
 #include <QFileDialog>
 #include <QPainter>
 #include <QImage>
+#include <QTimer>
 
 #include <stdio.h>
 
 #include "ui_PlateGatewayDialogUi.h"
 #include "PlateValidationHelper.h"
+#include "RenderHistogramHelper.h"
 #include "RenderVideo.h"
+#include "RenderHistogram.h"
 
 class PlateGatewayDialog : public QMainWindow, public Ui_PlateGatewayQt
 {
@@ -36,16 +39,16 @@ private:
 
 private:
     RenderVideoHelper *m_renderVideoHelper;
-//    RenderHistogramHelper *rh_hlp;
+    RenderHistogramHelper *m_renderHistogramHelper;
     PlateValidationHelper *m_plateValidateHelper;
-//
-    RenderVideo *renderVideoWidget;
-//    Widget_RenderHistogram *rh_widget;
 
-//    QTimer *render_timer;
-//    QTimer *update_timer;
-//    QTimer *update_plate_timer;
-//    QTimer *update_database_timer;
+    RenderVideo *renderVideoWidget;
+    RenderHistogram *renderHistogramwidget;
+
+    QTimer *render_timer;
+    QTimer *update_timer;
+    QTimer *update_plate_timer;
+    QTimer *update_database_timer;
 
 //    QString classifier_file;
 //    int sensibility;
@@ -63,7 +66,7 @@ private:
     QString m_filename;
 
 private slots:
-//    void update_screen();
+    void update_screen();
     //void update_list();
     //void update_plate_list();
     //void update_image_list();

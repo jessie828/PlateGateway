@@ -9,11 +9,16 @@
 // met: http://www.gnu.org/copyleft/gpl.html.
 ///////////////////////////////////////////////////////////////////////////////////
 
+#ifndef RENDERHISTOGRAMHELPER_H
+#define RENDERHISTOGRAMHELPER_H
+
 #include <QPainter>
 #include <QPaintEvent>
 #include <QImage>
+#include <QThread>
+#include <QWidget>
 
-#include "PlateGateway.h"
+#include "PlateDetector.h"
 
 class RenderHistogramHelper : public QThread
 {
@@ -38,3 +43,5 @@ class RenderHistogramHelper : public QThread
     protected:
         void run();
 };
+
+#endif /* RENDERHISTOGRAMHELPER_H */

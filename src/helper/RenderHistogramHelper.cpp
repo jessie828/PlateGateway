@@ -39,7 +39,7 @@ void RenderHistogramHelper::run()
 
     while(thread_active)
     {
-        get_histogram(vid_image_data_rgb,631,201);
+        PlateDetector::getInstance()->getHistogram(vid_image_data_rgb,631,201);
         usleep(250000);
     }
 }
