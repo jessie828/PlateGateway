@@ -18,3 +18,5 @@ It can read multiple plates at same time. With new release, positive hit number 
 The software is released under the GNU GPL V3 Open source license.
 
 This application is based on the project found at: http://www.dexmac.com/index.php?option=com_content&view=article&id=114:plategatewayqt&catid=82&Itemid=474
+
+Hey jessie
